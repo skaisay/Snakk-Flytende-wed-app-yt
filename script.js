@@ -725,14 +725,7 @@ class WebAssistant {
                 return masterResult.answer;
             }
 
-            // 2. Проверяем разговорные фразы (старая база)
-            if (typeof findConversationResponse !== 'undefined') {
-                const conversationResult = findConversationResponse(userMessage);
-                if (conversationResult) {
-                    console.log('💬 Найден разговорный ответ (старая база)');
-                    return conversationResult;
-                }
-            }
+            // 2. Старые базы отключены - используем только мастер-базу
 
             // Поиск переводов
             if (this.isTranslationRequest(userMessage)) {
@@ -781,13 +774,13 @@ class WebAssistant {
      * Обработка запроса на перевод
      */
     handleTranslationRequest(message) {
-        // Ищем в базе переводов
-        if (typeof TRANSLATION_DATABASE !== 'undefined') {
+        // Ищем ТОЛЬКО в мастер-базе
+        if (typeof MASTER_DATABASE !== 'undefined' && MASTER_DATABASE.translations) {
             const lowerMessage = message.toLowerCase();
             
-            for (const [ru, no] of Object.entries(TRANSLATION_DATABASE)) {
+            for (const [ru, no] of Object.entries(MASTER_DATABASE.translations)) {
                 if (lowerMessage.includes(ru.toLowerCase())) {
-                    return `🇷🇺 **${ru}**\n🇳🇴 **${no}**\n\n✨ Перевод найден в базе данных!`;
+                    return `🇷🇺 **${ru}**\n🇳🇴 **${no}**\n\n✨ Перевод найден в мастер-базе!`;
                 }
             }
         }
@@ -811,9 +804,9 @@ class WebAssistant {
         }
         
         if (lowerMessage.includes('случайное слово') || lowerMessage.includes('случайное')) {
-            // Возвращаем случайное норвежское слово
-            if (typeof TRANSLATION_DATABASE !== 'undefined') {
-                const words = Object.entries(TRANSLATION_DATABASE);
+            // Возвращаем случайное норвежское слово из мастер-базы
+            if (typeof MASTER_DATABASE !== 'undefined' && MASTER_DATABASE.translations) {
+                const words = Object.entries(MASTER_DATABASE.translations);
                 const randomWord = words[Math.floor(Math.random() * words.length)];
                 return `🇳🇴 **${randomWord[1]}** — ${randomWord[0]}\n\n💡 Попробуйте использовать это слово в предложении!`;
             }
