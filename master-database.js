@@ -113,6 +113,7 @@ const MASTER_DATABASE = {
         "где туалет?": "hvor er toalettet?",
         "сколько это стоит?": "hvor mye koster det?",
         "я хочу": "jeg vil ha",
+        "тест_изменение": "test_endring_РАБОТАЕТ",
         "мне нужно": "jeg trenger",
         "помогите": "hjelp",
         "вода": "vann",
@@ -130,7 +131,7 @@ const MASTER_DATABASE = {
         "говорить": "å snakke",
         "понимать": "å forstå",
         "читать": "å lese",
-        "писать": "å skrivevvvvvvvvvvvvvv"
+        "писать": "å skrive"
     },
 
     // =====================================================
