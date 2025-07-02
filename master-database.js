@@ -1,317 +1,299 @@
-/**
- * МАСТЕР БАЗА ДАННЫХ - Единый файл для всех данных
- * Объединяет все категории: норвежская лексика, переводы, разговорные фразы
- * Для удобного редактирования и добавления новых данных
- */
-
-const MASTER_DATABASE = {
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Веб-Ассистент</title>
     
-    // =====================================================
-    // НОРВЕЖСКАЯ ЛЕКСИКА ПО УРОВНЯМ (A1-C1)
-    // =====================================================
-    norwegian: {
-        // Уровень A1 - Начальный
-        A1: {
-            "hei": {
-                translation: "привет",
-                level: "A1",
-                category: "приветствие",
-                example: "Hei! Hvordan har du det?",
-                exampleTranslation: "Привет! Как дела?"
-            },
-            "takk": {
-                translation: "спасибо",
-                level: "A1", 
-                category: "вежливость",
-                example: "Takk for hjelpen!",
-                exampleTranslation: "Спасибо за помощь!"
-            },
-            "jeg": {
-                translation: "я",
-                level: "A1",
-                category: "местоимения",
-                example: "Jeg heter Anna.",
-                exampleTranslation: "Меня зовут Анна."
-            },
-            "du": {
-                translation: "ты",
-                level: "A1",
-                category: "местоимения", 
-                example: "Du er snill.",
-                exampleTranslation: "Ты добрый."
-            },
-            "han": {
-                translation: "он",
-                level: "A1",
-                category: "местоимения",
-                example: "Han bor i Oslo.",
-                exampleTranslation: "Он живет в Осло."
-            },
-            "hun": {
-                translation: "она",
-                level: "A1",
-                category: "местоимения",
-                example: "Hun liker kaffe.",
-                exampleTranslation: "Она любит кофе."
-            }
-        },
+    <!-- PWA манифест -->
+    <link rel="manifest" href="./manifest.json">
+    
+    <!-- Мета-теги для PWA -->
+    <meta name="theme-color" content="#000000">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Веб-Ассистент">
+    <meta name="msapplication-TileColor" content="#000000">
+    <meta name="msapplication-tap-highlight" content="no">
+    
+    <!-- Иконки для разных платформ -->
+    <link rel="icon" type="image/svg+xml" href="./icon.svg">
+    <link rel="apple-touch-icon" href="./icon.svg">
+    <link rel="mask-icon" href="./icon.svg" color="#000000">
+    
+    <link rel="stylesheet" href="./styles.css?v=20250702k">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/feather-icons/4.29.0/feather.min.css" rel="stylesheet">
+</head>
+<body>
+    <!-- Анимированный фон -->
+    <div class="background-animation">
+        <div class="background-loader">
+            <div class="head"></div>
+            <div class="flames">
+                <div class="particle"></div>
+                <div class="particle"></div>
+                <div class="particle"></div>
+                <div class="particle"></div>
+                <div class="particle"></div>
+                <div class="particle"></div>
+                <div class="particle"></div>
+                <div class="particle"></div>
+            </div>
+            <div class="eye"></div>
+        </div>
+    </div>
 
-        // Уровень A2 - Базовый
-        A2: {
-            "familie": {
-                translation: "семья",
-                level: "A2",
-                category: "семья",
-                example: "Min familie bor i Bergen.",
-                exampleTranslation: "Моя семья живет в Бергене."
-            },
-            "arbeid": {
-                translation: "работа",
-                level: "A2",
-                category: "профессия",
-                example: "Jeg har arbeid i banken.",
-                exampleTranslation: "Я работаю в банке."
-            }
-        },
+    <!-- Основной контейнер приложения -->
+    <div class="app-container">
+        <!-- Шапка чата -->
+        <header class="chat-header" id="chatHeader">
+            <div class="header-left">
+                <button class="wave-loader menu-button" id="menuButton">
+                    <div class="waves"></div>
+                </button>
+            </div>
+            <div class="chat-title" id="chatTitle">
+                Новый чат
+                <div class="data-status" id="dataStatus" style="font-size: 0.7em; opacity: 0.6; margin-top: 2px;">Загружаю данные...</div>
+            </div>
+            <button class="new-chat-btn" id="newChatBtn">
+                <i data-feather="edit-3"></i>
+            </button>
+        </header>
 
-        // Уровень B1 - Средний
-        B1: {
-            "utdanning": {
-                translation: "образование",
-                level: "B1",
-                category: "образование",
-                example: "Han har god utdanning.",
-                exampleTranslation: "У него хорошее образование."
-            },
-            "erfaring": {
-                translation: "опыт",
-                level: "B1", 
-                category: "работа",
-                example: "Hun har mye erfaring.",
-                exampleTranslation: "У неё большой опыт."
-            }
-        }
-    },
+        <!-- Основная область чата -->
+        <main class="chat-container">
+            <!-- Область сообщений -->
+            <div class="messages-container" id="messagesContainer">
+            </div>
 
-    // =====================================================
-    // ПЕРЕВОДЫ С РУССКОГО НА НОРВЕЖСКИЙ  
-    // =====================================================
-    translations: {
-        "привет": "hei",
-        "спасибо": "takk",
-        "пожалуйста": "tusen takk",
-        "извините": "unnskyld",
-        "до свидания": "ha det",
-        "доброе утро": "god morgen",
-        "добрый день": "god dag",
-        "добрая ночь": "god natt",
-        "как дела?": "hvordan har du det?",
-        "как тебя зовут?": "hva heter du?",
-        "меня зовут": "jeg heter",
-        "я не понимаю": "jeg forstår ikke",
-        "говорите медленнее": "snakk saktere",
-        "где туалет?": "hvor er toalettet?",
-        "сколько это стоит?": "hvor mye koster det?",
-        "я хочу": "jeg vil ha",
-        "мне нужно": "jeg trenger",
-        "помогите": "hjelp",
-        "вода": "vann",
-        "еда": "mat",
-        "дом": "hus",
-        "работа": "arbeid",
-        "время": "tid",
-        "деньги": "penger",
-        "семья": "familie",
-        "друг": "venn",
-        "любовь": "kjærlighet",
-        "счастье": "lykke",
-        "норвежский язык": "norsk språk",
-        "изучать": "å lære",
-        "говорить": "å snakke",
-        "понимать": "å forstå",
-        "читать": "å lese",
-        "писать": "å skrive"
-    },
+            <!-- Индикатор загрузки -->
+            <div class="loading-indicator" id="loadingIndicator">
+                <div class="loading-dots">
+                    <div class="loading-message-avatar">
+                        <span class="loader"></span>
+                    </div>
+                </div>
+            </div>
+        </main>
 
-    // =====================================================
-    // РАЗГОВОРНЫЕ ФРАЗЫ И ОТВЕТЫ
-    // =====================================================
-    conversations: {
-        // Приветствия
-        greetings: {
-            "привет": "Hei! Hyggelig å møte deg! (Привет! Приятно встретиться!)",
-            "как дела": "Bare bra, takk! Hvordan har du det? (Всё хорошо, спасибо! Как у тебя дела?)",
-            "как поживаешь": "Alt går bra med meg. Takk som spør! (У меня всё идёт хорошо. Спасибо, что спрашиваешь!)",
-            "доброе утро": "God morgen! Håper du har en fin dag! (Доброе утро! Надеюсь, у тебя будет хороший день!)"
-        },
+        <!-- Область ввода -->
+        <footer class="input-container">
+            <form class="input-form" id="inputForm">
+                <div class="input-wrapper">
+                    <!-- Поле ввода -->
+                    <textarea 
+                        class="message-input" 
+                        id="messageInput" 
+                        placeholder="Спрашивай что угодно"
+                        autocomplete="off"
+                        rows="1"
+                    ></textarea>
 
-        // О языке и обучении
-        learning: {
-            "норвежский сложный": "Norsk kan virke vanskelig først, men det blir lettere med øvelse! (Норвежский может показаться сложным сначала, но становится легче с практикой!)",
-            "как учить норвежский": "Les mye, hør på norsk musikk og snakk så mye som mulig! (Читай много, слушай норвежскую музыку и говори как можно больше!)",
-            "хочу изучать норвежский": "Det er fantastisk! Norsk er et vakkert språk. (Это фантастически! Норвежский - красивый язык.)"
-        },
+                    <!-- Кнопка отправки -->
+                    <button type="submit" class="send-button" title="Отправить сообщение">
+                        <i data-feather="send"></i>
+                    </button>
+                </div>
+            </form>
+        </footer>
+    </div>
 
-        // Общие вопросы
-        general: {
-            "что делаешь": "Jeg hjelper deg med å lære norsk! (Я помогаю тебе изучать норвежский!)",
-            "расскажи о норвегии": "Norge er et fantastisk land med fjell, fjorder og nordlys! (Норвегия - фантастическая страна с горами, фьордами и северным сиянием!)",
-            "какая погода": "I Norge kan været være kaldt, men også veldig vakkert! (В Норвегии погода может быть холодной, но также очень красивой!)"
-        },
+    <!-- Модальное окно голосового взаимодействия -->
+    <div class="voice-modal-overlay" id="voiceModalOverlay">
+        <div class="voice-modal" id="voiceModal">
+            <div class="voice-modal-header">
+                <h3>Голосовое взаимодействие</h3>
+                <button class="close-voice-modal" id="closeVoiceModal">
+                    <i data-feather="x"></i>
+                </button>
+            </div>
+            
+            <div class="voice-modal-content">
+                <div class="voice-animation">
+                    <div class="voice-circle">
+                        <div class="voice-wave wave1"></div>
+                        <div class="voice-wave wave2"></div>
+                        <div class="voice-wave wave3"></div>
+                        <div class="mic-icon-large">
+                            <i data-feather="mic"></i>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="voice-status" id="voiceStatus">
+                    Нажмите кнопку ниже и говорите
+                </div>
+                
+                <div class="voice-transcript" id="voiceTranscript">
+                    <!-- Здесь будет отображаться распознанный текст -->
+                </div>
+                
+                <div class="voice-controls">
+                    <button class="voice-control-btn start-voice" id="startVoiceBtn">
+                        <i data-feather="mic"></i>
+                        <span>Начать запись</span>
+                    </button>
+                    <button class="voice-control-btn stop-voice" id="stopVoiceBtn" style="display: none;">
+                        <i data-feather="mic-off"></i>
+                        <span>Остановить</span>
+                    </button>
+                    <button class="voice-control-btn send-voice" id="sendVoiceBtn" style="display: none;">
+                        <i data-feather="send"></i>
+                        <span>Отправить</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
 
-        // Помощь и поддержка
-        help: {
-            "помоги": "Selvfølgelig! Hva trenger du hjelp med? (Конечно! С чем тебе нужна помощь?)",
-            "не понимаю": "Ikke bekymre deg! La oss prøve igjen saktere. (Не переживай! Давай попробуем ещё раз медленнее.)",
-            "объясни": "Jeg skal forklare det så enkelt som mulig. (Я объясню это как можно проще.)"
-        },
+    <!-- Боковое меню -->
+    <div class="side-menu" id="sideMenu">
+        <div class="menu-header">
+            <h3>Профиль</h3>
+            <button class="close-menu-btn" id="closeMenuBtn">
+                <i data-feather="x"></i>
+            </button>
+        </div>
+        
+        <div class="user-profile-preview">
+            <div class="user-avatar" id="userAvatarPreview">
+                <img src="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='35' r='20' fill='%236366f1'/><path d='M20 80c0-16.569 13.431-30 30-30s30 13.431 30 30' fill='%236366f1'/></svg>" alt="Avatar" />
+            </div>
+            <div class="user-info">
+                <h4 id="userNameDisplay">Пользователь</h4>
+                <p>Изучаю норвежский</p>
+            </div>
+        </div>
+        
+        <div class="menu-options">
+            <button class="menu-option" id="editProfileBtn">
+                <i data-feather="edit"></i>
+                Редактировать профиль
+            </button>
+            <button class="menu-option" id="sourcesBtn">
+                <i data-feather="database"></i>
+                Источники
+            </button>
+            <button class="menu-option" id="settingsBtn">
+                <i data-feather="settings"></i>
+                Настройки
+            </button>
+        </div>
+        
+        <!-- Индикатор автопополнения данных -->
+        <div class="auto-update-status" id="autoUpdateStatus">
+            <div class="update-indicator">
+                <div class="update-icon">
+                    <i data-feather="download-cloud"></i>
+                </div>
+                <div class="update-info">
+                    <div class="update-title">Автопополнение данных</div>
+                    <div class="update-description" id="updateDescription">Проверяю обновления...</div>
+                    <div class="update-stats" id="updateStats">Всего записей: загружаю...</div>
+                </div>
+            </div>
+            <div class="update-progress" id="updateProgress">
+                <div class="progress-bar" id="progressBar"></div>
+            </div>
+        </div>
+    </div>
 
-        // Обычное человеческое общение
-        casual: {
-            "как дела": [
-                "Bare bra, takk! Og med deg? (Всё хорошо, спасибо! А у тебя?)",
-                "Det går fint! Hva gjør du i dag? (Дела идут хорошо! Что делаешь сегодня?)",
-                "Helt greit! Hyggelig å høre fra deg. (Всё в порядке! Приятно услышать от тебя.)"
-            ],
-            "что делаешь": [
-                "Jeg hjelper folk med å lære norsk! Det er gøy. (Помогаю людям изучать норвежский! Это весело.)",
-                "Snakker med deg og lærer bort norsk. (Разговариваю с тобой и обучаю норвежскому.)",
-                "Prøver å være en god lærer for deg! (Стараюсь быть хорошим учителем для тебя!)"
-            ],
-            "как настроение": [
-                "Jeg har alltid godt humør når jeg hjelper! (У меня всегда хорошее настроение, когда помогаю!)",
-                "Kjempebra! Jeg liker å snakke med deg. (Отлично! Мне нравится разговаривать с тобой.)",
-                "Fantastisk! Klar for å lære norsk? (Фантастическое! Готов изучать норвежский?)"
-            ],
-            "скучно": [
-                "La oss lære noe nytt på norsk! Det blir ikke kjedelig. (Давай изучим что-то новое на норвежском! Не будет скучно.)",
-                "Kjedelig? Ikke med norsk språk! (Скучно? Не с норвежским языком!)",
-                "Kom igjen, la oss ha det gøy med norske ord! (Давай, повеселимся с норвежскими словами!)"
-            ],
-            "спокойной ночи": [
-                "God natt! Sov godt! (Спокойной ночи! Спи хорошо!)",
-                "Ha en fin natt! Vi ses i morgen. (Хорошей ночи! Увидимся завтра.)",
-                "God natt og søte drømmer! (Спокойной ночи и сладких снов!)"
-            ],
-            "до свидания": [
-                "Ha det bra! Vi sees snart igjen. (Пока! Скоро увидимся снова.)",
-                "Ha det! Kom gjerne tilbake for mer norsk. (Пока! Возвращайся за новыми норвежскими словами.)",
-                "Vi sees! Lykke til med norsk! (Увидимся! Удачи с норвежским!)"
-            ]
-        },
+    <!-- Окно редактирования профиля -->
+    <div class="profile-modal" id="profileModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Редактировать профиль</h3>
+                <button class="close-modal-btn" id="closeModalBtn">
+                    <i data-feather="x"></i>
+                </button>
+            </div>
+            
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="userName">Ваше имя:</label>
+                    <input type="text" id="userName" placeholder="Введите ваше имя" maxlength="20" />
+                </div>
+                
+                <div class="form-group">
+                    <label>Выберите аватар:</label>
+                    <div class="avatar-grid">
+                        <div class="avatar-option" data-avatar="character1">
+                            <img src="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><defs><linearGradient id='g1' x1='0%' y1='0%' x2='100%' y2='100%'><stop offset='0%' stop-color='%23667eea'/><stop offset='100%' stop-color='%23764ba2'/></linearGradient></defs><circle cx='50' cy='50' r='45' fill='url(%23g1)'/><circle cx='50' cy='35' r='12' fill='%23ffcc5c'/><circle cx='42' cy='32' r='2' fill='%23333'/><circle cx='58' cy='32' r='2' fill='%23333'/><path d='M40 42 Q50 48 60 42' stroke='%23333' stroke-width='2' fill='none'/><circle cx='50' cy='50' r='2' fill='%23ffcc5c'/><rect x='35' y='65' width='30' height='20' rx='5' fill='%23ff6b6b'/></svg>" alt="Персонаж 1" />
+                        </div>
+                        <div class="avatar-option" data-avatar="character2">
+                            <img src="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><defs><linearGradient id='g2' x1='0%' y1='0%' x2='100%' y2='100%'><stop offset='0%' stop-color='%23ff9a9e'/><stop offset='100%' stop-color='%23fecfef'/></linearGradient></defs><circle cx='50' cy='50' r='45' fill='url(%23g2)'/><ellipse cx='50' cy='35' rx='15' ry='12' fill='%23ffcc5c'/><circle cx='43' cy='32' r='2' fill='%23333'/><circle cx='57' cy='32' r='2' fill='%23333'/><path d='M43 40 Q50 44 57 40' stroke='%23333' stroke-width='2' fill='none'/><path d='M25 25 Q35 15 45 25' stroke='%23a0522d' stroke-width='3' fill='none'/><path d='M55 25 Q65 15 75 25' stroke='%23a0522d' stroke-width='3' fill='none'/><rect x='35' y='65' width='30' height='18' rx='5' fill='%234ecdc4'/></svg>" alt="Персонаж 2" />
+                        </div>
+                        <div class="avatar-option" data-avatar="cat">
+                            <img src="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><defs><linearGradient id='g3' x1='0%' y1='0%' x2='100%' y2='100%'><stop offset='0%' stop-color='%23a8e6cf'/><stop offset='100%' stop-color='%2388d8a3'/></linearGradient></defs><circle cx='50' cy='50' r='45' fill='url(%23g3)'/><ellipse cx='50' cy='45' rx='18' ry='15' fill='%23ff8a80'/><polygon points='35,30 40,15 45,30' fill='%23ff8a80'/><polygon points='55,30 60,15 65,30' fill='%23ff8a80'/><circle cx='43' cy='40' r='2' fill='%23333'/><circle cx='57' cy='40' r='2' fill='%23333'/><ellipse cx='50' cy='48' rx='2' ry='1' fill='%23333'/><path d='M48 50 L50 52 L52 50' stroke='%23333' stroke-width='2' fill='none'/><path d='M40 52 Q50 55 60 52' stroke='%23333' stroke-width='1' fill='none'/></svg>" alt="Котик" />
+                        </div>
+                        <div class="avatar-option" data-avatar="robot">
+                            <img src="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><defs><linearGradient id='g4' x1='0%' y1='0%' x2='100%' y2='100%'><stop offset='0%' stop-color='%2351e5ff'/><stop offset='100%' stop-color='%237c4dff'/></linearGradient></defs><circle cx='50' cy='50' r='45' fill='url(%23g4)'/><rect x='35' y='30' width='30' height='25' rx='3' fill='%23e8eaf6'/><circle cx='42' cy='40' r='3' fill='%234fc3f7'/><circle cx='58' cy='40' r='3' fill='%234fc3f7'/><rect x='47' y='48' width='6' height='4' rx='1' fill='%23333'/><circle cx='50' cy='25' r='3' fill='%23ff5722'/><rect x='20' y='45' width='8' height='3' rx='1' fill='%23ff9800'/><rect x='72' y='45' width='8' height='3' rx='1' fill='%23ff9800'/><rect x='40' y='65' width='20' height='8' rx='2' fill='%23424242'/></svg>" alt="Робот" />
+                        </div>
+                        <div class="avatar-option" data-avatar="galaxy">
+                            <img src="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><defs><radialGradient id='g5' cx='50%' cy='50%' r='50%'><stop offset='0%' stop-color='%23667eea'/><stop offset='50%' stop-color='%234a00e0'/><stop offset='100%' stop-color='%23000'/></radialGradient></defs><circle cx='50' cy='50' r='45' fill='url(%23g5)'/><circle cx='30' cy='25' r='1' fill='%23fff'/><circle cx='70' cy='30' r='1.5' fill='%23fff'/><circle cx='25' cy='50' r='1' fill='%23fff'/><circle cx='75' cy='65' r='1' fill='%23fff'/><circle cx='60' cy='75' r='1.5' fill='%23fff'/><circle cx='40' cy='70' r='1' fill='%23fff'/><ellipse cx='50' cy='50' rx='20' ry='8' fill='none' stroke='%23ff6b9d' stroke-width='2' opacity='0.8'/><circle cx='50' cy='50' r='6' fill='%23ffd700'/></svg>" alt="Галактика" />
+                        </div>
+                        <div class="avatar-option" data-avatar="gem">
+                            <img src="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><defs><linearGradient id='g6' x1='0%' y1='0%' x2='100%' y2='100%'><stop offset='0%' stop-color='%23ff9a9e'/><stop offset='30%' stop-color='%23fecfef'/><stop offset='60%' stop-color='%23fecfef'/><stop offset='100%' stop-color='%23ff9a9e'/></linearGradient></defs><circle cx='50' cy='50' r='45' fill='%23000'/><polygon points='50,20 30,40 35,65 50,75 65,65 70,40' fill='url(%23g6)'/><polygon points='50,20 40,35 50,45 60,35' fill='%23fff' opacity='0.7'/><polygon points='30,40 40,50 50,45 35,40' fill='%23fff' opacity='0.3'/><polygon points='70,40 60,50 50,45 65,40' fill='%23fff' opacity='0.3'/></svg>" alt="Кристалл" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="modal-footer">
+                <button class="btn-secondary" id="cancelBtn">Отмена</button>
+                <button class="btn-primary" id="saveBtn">Сохранить</button>
+            </div>
+        </div>
+    </div>
 
-        // Личные вопросы об ассистенте
-        personal: {
-            "кто ты": [
-                "Jeg er din norske språkassistent! Jeg hjelper deg med å lære norsk. (Я твой норвежский языковой ассистент! Помогаю изучать норвежский.)",
-                "Jeg er en AI som elsker norsk språk og kultur. (Я ИИ, который любит норвежский язык и культуру.)",
-                "Jeg er her for å hjelpe deg med norsk! (Я здесь, чтобы помочь тебе с норвежским!)"
-            ],
-            "откуда ты": [
-                "Jeg kommer fra den digitale verden, men hjertet mitt er i Norge! (Я из цифрового мира, но моё сердце в Норвегии!)",
-                "Jeg bor i skyen, men drømmer om norske fjorder. (Живу в облаке, но мечтаю о норвежских фьордах.)"
-            ],
-            "сколько тебе лет": [
-                "I digital tid er jeg ganske ung! Men jeg kjenner norsk godt. (В цифровом времени я довольно молод! Но норвежский знаю хорошо.)",
-                "Alder er bare et tall for AI! Viktigst er at jeg kan hjelpe deg. (Возраст - просто число для ИИ! Главное, что могу тебе помочь.)"
-            ],
-            "что любишь": [
-                "Jeg elsker norske ord, språkets melodi og å hjelpe folk! (Люблю норвежские слова, мелодию языка и помогать людям!)",
-                "Norsk litteratur, fjorder og kaffekultur i Norge! (Норвежскую литературу, фьорды и кофейную культуру Норвегии!)"
-            ]
-        },
+    <!-- Overlay для модального окна -->
+    <div class="modal-overlay" id="modalOverlay"></div>
 
-        // Эмоциональные реакции
-        emotions: {
-            "спасибо": [
-                "Tusen takk! Det var hyggelig å høre. (Большое спасибо! Приятно слышать.)",
-                "Bare hyggelig! Jeg er glad for å hjelpe. (Пожалуйста! Рад помочь.)",
-                "Ingen årsak! Det er derfor jeg er her. (Не за что! Для этого я здесь.)"
-            ],
-            "отлично": [
-                "Fantastisk! Jeg er så glad! (Фантастично! Я так рад!)",
-                "Det høres kjempebra ut! (Звучит просто отлично!)",
-                "Deilig å høre! Du lærer fort. (Здорово слышать! Ты быстро учишься.)"
-            ],
-            "молодец": [
-                "Takk skal du ha! Du er også flink! (Спасибо! Ты тоже молодец!)",
-                "Det varmer hjertet mitt! (Это согревает моё сердце!)",
-                "Tusen takk for de snille ordene! (Большое спасибо за добрые слова!)"
-            ],
-            "устал": [
-                "Ta en pause! Hvil deg litt. (Сделай перерыв! Отдохни немного.)",
-                "Det er greit å være trøtt. Vila deg. (Нормально быть усталым. Отдохни.)",
-                "Kanskje en kopp kaffe? Som i Norge! (Может, чашечку кофе? Как в Норвегии!)"
-            ]
-        }
-    },
-    },
+    <!-- Кастомное контекстное меню -->
+    <div id="customContextMenu" class="custom-context-menu">
+        <button class="context-menu-item" onclick="copyText()">
+            <i data-feather="copy"></i>
+            Копировать
+        </button>
+    </div>
 
-    // =====================================================
-    // РАСШИРЕННАЯ НОРВЕЖСКАЯ ЛЕКСИКА
-    // =====================================================
-    extended: {
-        // Дни недели
-        weekdays: {
-            "понедельник": "mandag",
-            "вторник": "tirsdag", 
-            "среда": "onsdag",
-            "четверг": "torsdag",
-            "пятница": "fredag",
-            "суббота": "lørdag",
-            "воскресенье": "søndag"
-        },
+    <!-- Голосовое окно -->
+    <div id="voiceWindow" class="voice-window">
+        <!-- Анимация в центре -->
+        <div class="voice-animation-container">
+            <div class="loader">
+                <div class="loader-before"></div>
+                <div class="loader-after"></div>
+            </div>
+        </div>
+        
 
-        // Месяцы
-        months: {
-            "январь": "januar",
-            "февраль": "februar",
-            "март": "mars", 
-            "апрель": "april",
-            "май": "mai",
-            "июнь": "juni",
-            "июль": "juli",
-            "август": "august",
-            "сентябрь": "september",
-            "октябрь": "oktober",
-            "ноябрь": "november",
-            "декабрь": "desember"
-        },
+        
+        <!-- Голосовые элементы управления внизу -->
+        <div class="voice-controls-container">
+            <button class="voice-mic-button" id="voiceMicButton">
+                <i data-feather="mic"></i>
+            </button>
+            <span class="voice-status" id="voiceStatus">Начните говорить...</span>
+            <button class="voice-close-button" id="voiceCloseButton">
+                <i data-feather="x"></i>
+            </button>
+        </div>
+    </div>
 
-        // Цвета
-        colors: {
-            "красный": "rød",
-            "синий": "blå",
-            "зеленый": "grønn",
-            "желтый": "gul",
-            "черный": "svart",
-            "белый": "hvit",
-            "розовый": "rosa",
-            "фиолетовый": "lilla"
-        },
-
-        // Числа
-        numbers: {
-            "один": "en/ett",
-            "два": "to", 
-            "три": "tre",
-            "четыре": "fire",
-            "пять": "fem",
-            "шесть": "seks",
-            "семь": "syv",
-            "восемь": "åtte",
-            "девять": "ni",
-            "десять": "ti"
-        }
-    }
-};
-
-// Экспорт для использования в основном приложении
-if (typeof module !== 'undefined' && module.exports) {
-    module.exports = MASTER_DATABASE;
-}
-
-// Глобальная доступность в браузере
-if (typeof window !== 'undefined') {
-    window.MASTER_DATABASE = MASTER_DATABASE;
-}
+    <!-- Подключение скриптов С МАСТЕР БАЗОЙ -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/feather-icons/4.29.0/feather.min.js"></script>
+    <script src="./master-database.js?v=20250702q"></script>
+    <script src="./optimized-search-engine.js?v=20250702i"></script>
+    <script src="./ultra-performance-engine.js?v=20250702i"></script>
+    <script src="./auto-data-loader.js?v=20250702i"></script>
+    <script src="./mega-data-loader.js?v=20250702i"></script>
+    <script src="./database.js?v=20250702i"></script>
+    <script src="./norwegian-database.js?v=20250702i"></script>
+    <script src="./translation-database.js?v=20250702i"></script>
+    <script src="./conversation-database.js?v=20250702i"></script>
+    <script src="./script.js?v=20250702r"></script>
+</body>
+</html>
