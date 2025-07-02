@@ -164,7 +164,87 @@ const MASTER_DATABASE = {
             "помоги": "Selvfølgelig! Hva trenger du hjelp med? (Конечно! С чем тебе нужна помощь?)",
             "не понимаю": "Ikke bekymre deg! La oss prøve igjen saktere. (Не переживай! Давай попробуем ещё раз медленнее.)",
             "объясни": "Jeg skal forklare det så enkelt som mulig. (Я объясню это как можно проще.)"
+        },
+
+        // Обычное человеческое общение
+        casual: {
+            "как дела": [
+                "Bare bra, takk! Og med deg? (Всё хорошо, спасибо! А у тебя?)",
+                "Det går fint! Hva gjør du i dag? (Дела идут хорошо! Что делаешь сегодня?)",
+                "Helt greit! Hyggelig å høre fra deg. (Всё в порядке! Приятно услышать от тебя.)"
+            ],
+            "что делаешь": [
+                "Jeg hjelper folk med å lære norsk! Det er gøy. (Помогаю людям изучать норвежский! Это весело.)",
+                "Snakker med deg og lærer bort norsk. (Разговариваю с тобой и обучаю норвежскому.)",
+                "Prøver å være en god lærer for deg! (Стараюсь быть хорошим учителем для тебя!)"
+            ],
+            "как настроение": [
+                "Jeg har alltid godt humør når jeg hjelper! (У меня всегда хорошее настроение, когда помогаю!)",
+                "Kjempebra! Jeg liker å snakke med deg. (Отлично! Мне нравится разговаривать с тобой.)",
+                "Fantastisk! Klar for å lære norsk? (Фантастическое! Готов изучать норвежский?)"
+            ],
+            "скучно": [
+                "La oss lære noe nytt på norsk! Det blir ikke kjedelig. (Давай изучим что-то новое на норвежском! Не будет скучно.)",
+                "Kjedelig? Ikke med norsk språk! (Скучно? Не с норвежским языком!)",
+                "Kom igjen, la oss ha det gøy med norske ord! (Давай, повеселимся с норвежскими словами!)"
+            ],
+            "спокойной ночи": [
+                "God natt! Sov godt! (Спокойной ночи! Спи хорошо!)",
+                "Ha en fin natt! Vi ses i morgen. (Хорошей ночи! Увидимся завтра.)",
+                "God natt og søte drømmer! (Спокойной ночи и сладких снов!)"
+            ],
+            "до свидания": [
+                "Ha det bra! Vi sees snart igjen. (Пока! Скоро увидимся снова.)",
+                "Ha det! Kom gjerne tilbake for mer norsk. (Пока! Возвращайся за новыми норвежскими словами.)",
+                "Vi sees! Lykke til med norsk! (Увидимся! Удачи с норвежским!)"
+            ]
+        },
+
+        // Личные вопросы об ассистенте
+        personal: {
+            "кто ты": [
+                "Jeg er din norske språkassistent! Jeg hjelper deg med å lære norsk. (Я твой норвежский языковой ассистент! Помогаю изучать норвежский.)",
+                "Jeg er en AI som elsker norsk språk og kultur. (Я ИИ, который любит норвежский язык и культуру.)",
+                "Jeg er her for å hjelpe deg med norsk! (Я здесь, чтобы помочь тебе с норвежским!)"
+            ],
+            "откуда ты": [
+                "Jeg kommer fra den digitale verden, men hjertet mitt er i Norge! (Я из цифрового мира, но моё сердце в Норвегии!)",
+                "Jeg bor i skyen, men drømmer om norske fjorder. (Живу в облаке, но мечтаю о норвежских фьордах.)"
+            ],
+            "сколько тебе лет": [
+                "I digital tid er jeg ganske ung! Men jeg kjenner norsk godt. (В цифровом времени я довольно молод! Но норвежский знаю хорошо.)",
+                "Alder er bare et tall for AI! Viktigst er at jeg kan hjelpe deg. (Возраст - просто число для ИИ! Главное, что могу тебе помочь.)"
+            ],
+            "что любишь": [
+                "Jeg elsker norske ord, språkets melodi og å hjelpe folk! (Люблю норвежские слова, мелодию языка и помогать людям!)",
+                "Norsk litteratur, fjorder og kaffekultur i Norge! (Норвежскую литературу, фьорды и кофейную культуру Норвегии!)"
+            ]
+        },
+
+        // Эмоциональные реакции
+        emotions: {
+            "спасибо": [
+                "Tusen takk! Det var hyggelig å høre. (Большое спасибо! Приятно слышать.)",
+                "Bare hyggelig! Jeg er glad for å hjelpe. (Пожалуйста! Рад помочь.)",
+                "Ingen årsak! Det er derfor jeg er her. (Не за что! Для этого я здесь.)"
+            ],
+            "отлично": [
+                "Fantastisk! Jeg er så glad! (Фантастично! Я так рад!)",
+                "Det høres kjempebra ut! (Звучит просто отлично!)",
+                "Deilig å høre! Du lærer fort. (Здорово слышать! Ты быстро учишься.)"
+            ],
+            "молодец": [
+                "Takk skal du ha! Du er også flink! (Спасибо! Ты тоже молодец!)",
+                "Det varmer hjertet mitt! (Это согревает моё сердце!)",
+                "Tusen takk for de snille ordene! (Большое спасибо за добрые слова!)"
+            ],
+            "устал": [
+                "Ta en pause! Hvil deg litt. (Сделай перерыв! Отдохни немного.)",
+                "Det er greit å være trøtt. Vila deg. (Нормально быть усталым. Отдохни.)",
+                "Kanskje en kopp kaffe? Som i Norge! (Может, чашечку кофе? Как в Норвегии!)"
+            ]
         }
+    },
     },
 
     // =====================================================
