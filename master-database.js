@@ -129,7 +129,7 @@ const MASTER_DATABASE = {
         "норвежский язык": "norsk språk",
         "изучать": "å lære",
         "говорить": "å snakke",
-        "понимать": "å forstå",
+        "понимать": "åAAAAAAA forstå",
         "читать": "å lese",
         "писать": "å skriveeeeeeeeeeee"
     },
